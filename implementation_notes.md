@@ -12,8 +12,13 @@ TESTS:
 - winning condition
   - all cells but the once with mines are marked as 'revealed'
 - user-server interaction
-  - mark the cell as 'revealed' once leftclicked on
-  - nothing happens when clicking on a revealed cell
-  - 
+  - nothing happens when leftclicking or rightclicking on a revealed cell
+  - mark an unrevealed cell as 'flagged' when rightclicked on it
+  - mark an unrevealed cell as 'revealed' when leftclicked on it
+  - delete the 'flagged' marker on a cell when rightclicking on an already marked as 'flagged' one
 - graphical user interface
+  - render the grid correctly 
   - show the content of the cell once marked as 'reveled'
+  - show a flag on the cell once marked as 'flagged'
+  - remove the flag sprite once rightclicking on a cell marked as 'flagged'
+  
