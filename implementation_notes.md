@@ -21,4 +21,7 @@ TESTS:
   - show the content of the cell once marked as 'reveled'
   - show a flag on the cell once marked as 'flagged'
   - remove the flag sprite once rightclicking on a cell marked as 'flagged'
+
+TBD
+- time and flag count 
   
