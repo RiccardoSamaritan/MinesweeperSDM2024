@@ -9,4 +9,5 @@ public class Minefield {
         this.n_mine = n_mine;
     }
 
+    int testing;
 }
