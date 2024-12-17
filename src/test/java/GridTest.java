@@ -2,8 +2,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class Grid_test {
-    // test 1: la griglia deve essere 9x9
+public class GridTest {
+
+    // test 1: grid must be 9x9
     @Test
     void gridShouldBe9x9() {
         Minefield minefield = new Minefield(9,9,10);
@@ -15,7 +16,7 @@ public class Grid_test {
         );
     }
 
-    // test 2: la griglia deve contenere esattamente 10 mine
+    // test 2: grid must contain exactly 10 mines
     @Test
     void gridShouldContain10Mines() {
         Minefield minefield = new Minefield(9,9, 10);
@@ -23,7 +24,7 @@ public class Grid_test {
         assertEquals(10, mines, "Mines should be exactly 10");
     }
 
-    // test 3: i numeri delle celle devono essere corretti
+    // test 3: numbers inside the cell must be correct
     @Test
     void numbersInCellsShouldBeCorrect() {
         Minefield minefield = new Minefield(9,9,10);
