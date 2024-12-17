@@ -13,17 +13,8 @@ TESTS:
   - once a cell is marked as 'flagged' not able to be marked as 'flagged' again
 - winning conditions
   - all cells except those with mines are marked as 'revealed'
-- lose conditions
+- game over conditions 
   - a cell with a mine is marked as 'revealed'
-- game reset
-  - reset the grid
-  - reset the mines
-  - reset the flags
-  - reset the revealed cells
-- endgame conditions
-  - game over on game win
-  - game over on game lose
-  - game over on game reset
 - user-server interaction
   - nothing happens when leftclicking or rightclicking on a revealed cell
   - mark an unrevealed cell as 'flagged' when rightclicked on it
