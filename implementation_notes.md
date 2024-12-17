@@ -1,7 +1,7 @@
 
 ### Test to implement
 TESTS:
-- grid
+- grid 
   - grid 9 by 9 (tbd if 10 by 10)
   - grid contains 10 mines
   - numbers in cells are correct 

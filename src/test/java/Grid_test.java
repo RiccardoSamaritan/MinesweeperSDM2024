@@ -6,7 +6,7 @@ public class Grid_test {
     // test 1: la griglia deve essere 9x9
     @Test
     void gridShouldBe9x9() {
-        Minefield minefield = new Minefield(9,9, 10);
+        Minefield minefield = new Minefield(9,9,10);
         int rows = minefield.getRows();
         int columns = minefield.getColumns();
         assertAll(
