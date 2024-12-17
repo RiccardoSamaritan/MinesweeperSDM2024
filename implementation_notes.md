@@ -2,19 +2,18 @@
 ### Test to implement
 TESTS:
 - minefield
-  - grid 9 by 9 (tbd if 10 by 10)
-  - grid contains 10 mines
-  - numbers in cells are correct 
-  - mines are placed randomly
+  - grid 9 by 9 (tbd if 10 by 10) DONE         
+  - grid contains 10 mines DONE
+  - numbers in cells are correct DONE
+  - mines are placed randomly DONE
 - cells
-  - once a cell is marked as 'flagged' not able to be marked as 'revealed'
-  - once a cell is marked as 'revealed' not able to be marked as 'flagged'
-  - once a cell is marked as 'revealed' not able to be marked as 'revealed' again
-  - once a cell is marked as 'flagged' not able to be marked as 'flagged' again
+  - once a cell is marked as 'flagged' not able to be marked as 'revealed' DONE
+  - once a cell is marked as 'revealed' not able to be marked as 'flagged' DONE
+  - once a cell is marked as 'revealed' not able to be marked as 'revealed' again 
 - winning conditions
-  - all cells except those with mines are marked as 'revealed'
+  - all cells except those with mines are marked as 'revealed' DONE
 - game over conditions 
-  - a cell with a mine is marked as 'revealed'
+  - a cell with a mine is marked as 'revealed' DONE
 - user-server interaction
   - nothing happens when leftclicking or rightclicking on a revealed cell
   - mark an unrevealed cell as 'flagged' when rightclicked on it
@@ -27,5 +26,6 @@ TESTS:
   - remove the flag sprite once rightclicking on a cell marked as 'flagged'
 
 TBD
-- time and flag count 
+- time counter
+- flag counter 
   
