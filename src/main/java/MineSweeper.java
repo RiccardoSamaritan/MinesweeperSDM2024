@@ -21,6 +21,13 @@ public class MineSweeper {
                 grid[i][j] = new Cell();
             }
         }
+        placeMines();
+        // Set the number of mines around each cell
+        for (int i = 0; i < minefield.getRows(); i++) {
+            for (int j = 0; j < minefield.getColumns(); j++) {
+                grid[i][j].setNumber(grid, i, j);
+            }
+        }
     }
 
     public Cell[][] getGrid() {
@@ -74,5 +81,6 @@ public class MineSweeper {
     public boolean isGameOver() {
         return gameOver;
     }
+
 }
 
