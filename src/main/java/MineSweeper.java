@@ -4,13 +4,16 @@ public class MineSweeper {
     private Minefield minefield;
     private Cell[][] grid;
     private boolean gameOver;
+    private boolean gameWon;
+    private int minesCounter;
 
     //creates the minefield
     public MineSweeper(Minefield minefield) {
         this.minefield = minefield;
-        this.grid = new Cell[minefield.getRows()][minefield.getColumns()];
-        this.gameOver = false;
-
+        grid = new Cell[minefield.getRows()][minefield.getColumns()];
+        gameOver = false;
+        gameWon = false;
+        minesCounter = minefield.countMines();
         initializeGrid(); //calls methods initializeGrid to initialize empty cells
     }
 
@@ -21,17 +24,26 @@ public class MineSweeper {
                 grid[i][j] = new Cell();
             }
         }
-        placeMines();
-        // Set the number of mines around each cell
-        for (int i = 0; i < minefield.getRows(); i++) {
-            for (int j = 0; j < minefield.getColumns(); j++) {
-                grid[i][j].setNumber(grid, i, j);
-            }
-        }
     }
 
     public Cell[][] getGrid() {
         return grid;
+    }
+
+    public void printGrid(){
+        for (int i = 0; i < minefield.getRows(); i++) {
+            for (int j = 0; j < minefield.getColumns(); j++) {
+
+                Object[] cellInfo = new Object[4];
+                cellInfo[0] = grid[i][j].getNumber();
+                cellInfo[1] = grid[i][j].isRevealed();
+                cellInfo[2] = grid[i][j].isFlagged();
+                cellInfo[3] = grid[i][j].hasMine();
+
+                System.out.print(cellInfo[3] + " ");
+            }
+            System.out.println();
+        }
     }
 
 
@@ -78,9 +90,54 @@ public class MineSweeper {
         return row >= 0 && row < minefield.getRows() && col >= 0 && col < minefield.getColumns();
     }
 
-    public boolean isGameOver() {
+    // Reset the game
+    public void resetGame() {
+        initializeGrid();
+        placeMines();
+        gameOver = false;
+        gameWon = false;
+    }
+
+    public boolean getGameOver() {
         return gameOver;
     }
 
+    // Game over when a mine is revealed, reveals all mines
+    public void GameOver() {
+        gameOver = true;
+
+        for (int i = 0; i < minefield.getColumns(); i++) {
+            for (int j = 0; j < minefield.getRows(); j++) {
+                Cell cell = grid[i][j];
+
+                if (cell.hasMine()) {
+                    cell.reveal();
+                }
+            }
+        }
+    }
+
+    public boolean getGameWon() {
+        return gameWon;
+    }
+
+    public void GameWon() {
+        if(gameOver){
+            return;
+        }
+        WinningConditions winningConditions = new WinningConditions();
+        if (winningConditions.AllCellsRevealed()) {
+            gameWon = true;
+            // Flag all the cells not already flagged
+            for (int i = 0; i < minefield.getColumns(); i++) {
+                for (int j = 0; j < minefield.getRows(); j++) {
+                    Cell cell = grid[i][j];
+                    if (!cell.isFlagged()) {
+                        cell.flag();
+                    }
+                }
+            }
+        }
+    }
 }
 
