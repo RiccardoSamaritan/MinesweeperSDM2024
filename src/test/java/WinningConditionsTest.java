@@ -7,7 +7,7 @@ public class WinningConditionsTest {
     @Test
     public void CheckAllCellsAreRevealedExceptMines(){
         WinningConditions winningconditions = new WinningConditions();
-        boolean allCellsRevealed = winningconditions.checkAllCellsRevealed();
+        boolean allCellsRevealed = winningconditions.AllCellsRevealed();
         assertTrue(allCellsRevealed, "All cells should be revealed except mines");
     }
 }

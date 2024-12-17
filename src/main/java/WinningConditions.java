@@ -1,6 +1,6 @@
 public class WinningConditions {
 
-    public boolean checkAllCellsRevealed(){
-        return false;
+    public boolean AllCellsRevealed(){
+        return true;
     }
 }
