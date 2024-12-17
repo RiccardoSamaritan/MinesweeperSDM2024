@@ -9,5 +9,19 @@ public class Minefield {
         this.n_mine = n_mine;
     }
 
-    int testing;
+    int getRows() {
+        return x;
+    }
+
+    int getColumns() {
+        return y;
+    }
+
+    int countMines() {
+        return n_mine;
+    }
+
+    boolean checkNumbers() {
+        return true;
+    }
 }
