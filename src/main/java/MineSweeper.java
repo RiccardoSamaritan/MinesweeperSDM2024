@@ -30,6 +30,22 @@ public class MineSweeper {
         return grid;
     }
 
+    public void printGrid(){
+        for (int i = 0; i < minefield.getRows(); i++) {
+            for (int j = 0; j < minefield.getColumns(); j++) {
+
+                Object[] cellInfo = new Object[4];
+                cellInfo[0] = grid[i][j].getNumber();
+                cellInfo[1] = grid[i][j].isRevealed();
+                cellInfo[2] = grid[i][j].isFlagged();
+                cellInfo[3] = grid[i][j].hasMine();
+
+                System.out.print(cellInfo[3] + " ");
+            }
+            System.out.println();
+        }
+    }
+
 
     // places mines randomly in the grid
     private void placeMines() {
