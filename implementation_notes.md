@@ -16,6 +16,7 @@ TESTS:
   - mark an unrevealed cell as 'flagged' when rightclicked on it
   - mark an unrevealed cell as 'revealed' when leftclicked on it
   - delete the 'flagged' marker on a cell when rightclicking on an already marked as 'flagged' one
+  - restarting the game when pressing the restart button
 - graphical user interface
   - render the grid correctly 
   - show the content of the cell once marked as 'reveled'
@@ -23,5 +24,4 @@ TESTS:
   - remove the flag sprite once rightclicking on a cell marked as 'flagged'
 
 TBD
-- time and flag count 
-  
+- time and flag count
