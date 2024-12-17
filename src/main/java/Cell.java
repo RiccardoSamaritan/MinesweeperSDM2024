@@ -2,6 +2,7 @@ public class Cell {
     private boolean hasMine; //boole for mine
     private boolean isRevealed; //boole for revealed
     private boolean isFlagged; //boole for flag
+    private int number; //number of mines around the cell
 
     //default cell empty
     public Cell() {
@@ -27,6 +28,10 @@ public class Cell {
         return isFlagged;
     }
 
+    public int getNumber() {
+        return number;
+    }
+
     public boolean reveal() {
         if (!isFlagged) { //can't reveal a flagged cell
             isRevealed = true;
@@ -43,4 +48,3 @@ public class Cell {
         return false;
     }
 }
-
