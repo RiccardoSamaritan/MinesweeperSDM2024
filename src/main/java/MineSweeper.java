@@ -104,5 +104,24 @@ public class MineSweeper {
     public boolean getGameWon() {
         return gameWon;
     }
+
+    public void GameWon() {
+        if(gameOver){
+            return;
+        }
+        WinningConditions winningConditions = new WinningConditions();
+        if (winningConditions.AllCellsRevealed()) {
+            gameWon = true;
+            // Flag all the cells not already flagged
+            for (int i = 0; i < minefield.getColumns(); i++) {
+                for (int j = 0; j < minefield.getRows(); j++) {
+                    Cell cell = grid[i][j];
+                    if (!cell.isFlagged()) {
+                        cell.flag();
+                    }
+                }
+            }
+        }
+    }
 }
 
