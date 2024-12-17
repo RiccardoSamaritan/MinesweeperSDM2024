@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class MineSweeper {
     private Minefield minefield;
     private Cell[][] grid;
@@ -17,6 +19,29 @@ public class MineSweeper {
         for (int i = 0; i < minefield.getRows(); i++) {
             for (int j = 0; j < minefield.getColumns(); j++) {
                 grid[i][j] = new Cell();
+            }
+        }
+    }
+
+    public Cell[][] getGrid() {
+        return grid;
+    }
+
+
+    // places mines randomly in the grid
+    private void placeMines() {
+        Random rand = new Random();
+        int minesToPlace = minefield.countMines();
+
+        // Place the mines randomly in the grid
+        while (minesToPlace > 0) {
+            int row = rand.nextInt(minefield.getRows());  // Random row index
+            int col = rand.nextInt(minefield.getColumns());  // Random column index
+
+            Cell cell = grid[row][col];
+            if (!cell.hasMine()) {  // if the cell doesn't already have a mine
+                cell.setMine(true);  // set the cell to have a mine
+                minesToPlace--;  // decrease the remaining mines to place
             }
         }
     }

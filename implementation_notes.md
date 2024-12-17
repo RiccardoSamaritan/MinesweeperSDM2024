@@ -16,7 +16,7 @@ TESTS:
   - mark an unrevealed cell as 'flagged' when rightclicked on it
   - mark an unrevealed cell as 'revealed' when leftclicked on it
   - delete the 'flagged' marker on a cell when rightclicking on an already marked as 'flagged' one
-- graphical user interface
+- graphical user interface 
   - render the grid correctly 
   - show the content of the cell once marked as 'reveled'
   - show a flag on the cell once marked as 'flagged'

@@ -15,8 +15,8 @@ public class Cell {
         return hasMine;
     }
 
-    public void setMine() {
-        this.hasMine = true;
+    public void setMine(boolean hasMine) {
+        this.hasMine = hasMine;
     }
 
     public boolean isRevealed() {
