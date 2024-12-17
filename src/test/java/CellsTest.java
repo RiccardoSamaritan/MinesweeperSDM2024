@@ -2,7 +2,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class Cells_test {
+public class CellsTest {
     //test 1: game over when reveling a mined cell
     @Test
     void testGameOverWhenMineIsRevealed() {
