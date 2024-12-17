@@ -3,7 +3,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 public class CellsTest {
-    //test 1: game over when reveling a mined cell
+
+    //test 1: game over when revealing a mined cell
     @Test
     void testGameOverWhenMineIsRevealed() {
         Minefield minefield = new Minefield(9, 9, 10);
@@ -11,7 +12,7 @@ public class CellsTest {
         game.getGrid()[0][0].setMine(true);
         boolean hasMine = game.revealCell(0,0);
         assertAll(
-                ()-> assertTrue(game.isGameOver(), "Game over should be true"),
+                ()-> assertTrue(game.getGameOver(), "Game over should be true"),
                 ()-> assertTrue(hasMine, "hasMine should be true")
         );
     }

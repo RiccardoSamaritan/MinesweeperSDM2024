@@ -9,6 +9,8 @@ TESTS:
 - cells
   - once a cell is marked as 'flagged' not able to be marked as 'revealed'
   - once a cell is marked as 'revealed' not able to be marked as 'flagged'
+  - once a cell is marked as 'revealed' not able to be marked as 'revealed' again
+  - once a cell is marked as 'flagged' not able to be marked as 'flagged' again
 - winning conditions
   - all cells except those with mines are marked as 'revealed'
 - lose conditions

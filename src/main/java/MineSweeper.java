@@ -4,13 +4,16 @@ public class MineSweeper {
     private Minefield minefield;
     private Cell[][] grid;
     private boolean gameOver;
+    private boolean gameWon;
+    private int minesCounter;
 
     //creates the minefield
     public MineSweeper(Minefield minefield) {
         this.minefield = minefield;
-        this.grid = new Cell[minefield.getRows()][minefield.getColumns()];
-        this.gameOver = false;
-
+        grid = new Cell[minefield.getRows()][minefield.getColumns()];
+        gameOver = false;
+        gameWon = false;
+        minesCounter = minefield.countMines();
         initializeGrid(); //calls methods initializeGrid to initialize empty cells
     }
 
@@ -71,8 +74,35 @@ public class MineSweeper {
         return row >= 0 && row < minefield.getRows() && col >= 0 && col < minefield.getColumns();
     }
 
-    public boolean isGameOver() {
+    // Reset the game
+    public void resetGame() {
+        initializeGrid();
+        placeMines();
+        gameOver = false;
+        gameWon = false;
+    }
+
+    public boolean getGameOver() {
         return gameOver;
+    }
+
+    // Game over when a mine is revealed, reveals all mines
+    public void GameOver() {
+        gameOver = true;
+
+        for (int i = 0; i < minefield.getColumns(); i++) {
+            for (int j = 0; j < minefield.getRows(); j++) {
+                Cell cell = grid[i][j];
+
+                if (cell.hasMine()) {
+                    cell.reveal();
+                }
+            }
+        }
+    }
+
+    public boolean getGameWon() {
+        return gameWon;
     }
 }
 
