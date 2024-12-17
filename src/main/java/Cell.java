@@ -33,7 +33,7 @@ public class Cell {
     }
 
     public boolean reveal() {
-        if (!isFlagged) { //can't reveal a flagged cell
+        if (!isFlagged && !isRevealed) { //can't reveal a flagged cell or an already revealed cell
             isRevealed = true;
             return hasMine; // True if the cell has a mine
         }
