@@ -24,4 +24,5 @@ public class Minefield {
     boolean checkNumbers() {
         return true;
     }
+
 }
