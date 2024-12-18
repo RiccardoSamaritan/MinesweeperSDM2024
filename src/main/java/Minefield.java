@@ -1,28 +1,76 @@
+import java.util.Random;
+
 public class Minefield {
-    int x;
-    int y;
-    int n_mine;
+    private int rows;
+    private int cols;
+    private int n_mine;
+    private Cell[][] grid;
 
-    Minefield(int x, int y, int n_mine) {
-        this.x = x;
-        this.y = y;
+    public Minefield(int rows, int cols, int n_mine) {
+        this.rows = rows;
+        this.cols = cols;
         this.n_mine = n_mine;
+        this.grid = new Cell[rows][cols];
+        initializeGrid();
+        placeMines();
+        calculateNumbers();
     }
 
-    int getRows() {
-        return x;
+    private void initializeGrid() {
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                grid[row][col] = new Cell();
+            }
+        }
     }
 
-    int getColumns() {
-        return y;
+    private void placeMines() {
+        Random random = new Random();
+        int minesPlaced = 0;
+
+        while (minesPlaced < n_mine) {
+            int row = random.nextInt(rows);
+            int col = random.nextInt(cols);
+
+            if (!grid[row][col].hasMine()) {
+                grid[row][col].setMine(true);
+                minesPlaced++;
+            }
+        }
     }
 
-    int countMines() {
+    private void calculateNumbers() {
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                if (!grid[row][col].hasMine()) {
+                    grid[row][col].setNumber(grid, row, col);
+                }
+            }
+        }
+    }
+
+    private boolean isValidCell(int row, int col) {
+        return row >= 0 && row < rows && col >= 0 && col < cols;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return cols;
+    }
+
+    public int countMines() {
         return n_mine;
     }
 
-    boolean checkNumbers() {
-        return true;
+    public Cell[][] getGrid() {
+        return grid;
     }
 
+    public boolean checkNumbers(){
+        return true;
+    }
 }
+

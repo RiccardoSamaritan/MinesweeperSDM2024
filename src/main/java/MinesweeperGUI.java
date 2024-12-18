@@ -21,44 +21,7 @@ public class MinesweeperGUI extends JFrame {
         initializeGame(); // Ensure this is called after setting rows and cols
     }
 
-    // Package-private getters
-    MineSweeper getGame() {
-        return game;
-    }
-
-    JPanel getGridPanel() {
-        return gridPanel;
-    }
-
-    JButton[][] getCellButtons() {
-        return cellButtons;
-    }
-
-    int getRows() {
-        return rows;
-    }
-
-    int getCols() {
-        return cols;
-    }
-
-    ImageIcon getMineIcon() {
-        return mineIcon;
-    }
-
-    ImageIcon getFlagIcon() {
-        return flagIcon;
-    }
-
-    public MinesweeperGUI() {
-        initializeGame();
-    }
-
     private void initializeGame() {
-        // Create a new game
-        Minefield minefield = new Minefield(rows, cols, mines);
-        game = new MineSweeper(minefield);
-
         // Setup GUI
         setTitle("Minesweeper");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -177,6 +140,37 @@ public class MinesweeperGUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(MinesweeperGUI::new);
+        SwingUtilities.invokeLater(() -> {
+            Minefield minefield = new Minefield(9, 9, 10);
+            new MinesweeperGUI(minefield);
+        });
+    }
+
+    public JPanel getGridPanel() {
+        return gridPanel;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
+
+    public JButton[][] getCellButtons() {
+        return cellButtons;
+    }
+
+    public MineSweeper getGame() {
+        return game;
+    }
+
+    public ImageIcon getMineIcon() {
+        return mineIcon;
+    }
+
+    public ImageIcon getFlagIcon() {
+        return flagIcon;
     }
 }
