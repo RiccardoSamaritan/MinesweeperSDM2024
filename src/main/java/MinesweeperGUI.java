@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class MinesweeperGUI extends JFrame {
     private MineSweeper game;
@@ -10,15 +13,28 @@ public class MinesweeperGUI extends JFrame {
     private int cols;
     private int mines;
 
-    private ImageIcon mineIcon = new ImageIcon("mine.png");
-    private ImageIcon flagIcon = new ImageIcon("flag.png");
+    private ImageIcon mineIcon;
+    private ImageIcon flagIcon;
 
     public MinesweeperGUI(Minefield minefield) {
         this.rows = minefield.getRows();
         this.cols = minefield.getColumns();
         this.mines = minefield.countMines();
         this.game = new MineSweeper(minefield);
+        loadIcons();
         initializeGame(); // Ensure this is called after setting rows and cols
+    }
+
+    private void loadIcons() {
+        try {
+            BufferedImage mineImage = ImageIO.read(getClass().getResource("/images/mine.png"));
+            BufferedImage flagImage = ImageIO.read(getClass().getResource("/images/flag.png"));
+
+            mineIcon = new ImageIcon(mineImage);
+            flagIcon = new ImageIcon(flagImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initializeGame() {
@@ -81,7 +97,10 @@ public class MinesweeperGUI extends JFrame {
         Cell cell = game.getGrid()[row][col];
 
         if (cell.hasMine()) {
-            button.setIcon(mineIcon);
+            int iconWidth = button.getWidth();
+            int iconHeight = button.getHeight();
+            Image scaledMineImage = mineIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+            button.setIcon(new ImageIcon(scaledMineImage));
             button.setBackground(Color.RED);
             endGame(false);
         } else {
@@ -96,7 +115,14 @@ public class MinesweeperGUI extends JFrame {
 
     private void handleRightClick(int row, int col, JButton button) {
         if (game.flagCell(row, col)) {
-            button.setIcon(button.getIcon() == null ? flagIcon : null);
+            if (button.getIcon() == null) {
+                int iconWidth = button.getWidth();
+                int iconHeight = button.getHeight();
+                Image scaledFlagImage = flagIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+                button.setIcon(new ImageIcon(scaledFlagImage));
+            } else {
+                button.setIcon(null);
+            }
         }
     }
 
@@ -107,7 +133,10 @@ public class MinesweeperGUI extends JFrame {
                 JButton button = cellButtons[row][col];
 
                 if (cell.hasMine()) {
-                    button.setIcon(mineIcon);
+                    int iconWidth = button.getWidth();
+                    int iconHeight = button.getHeight();
+                    Image scaledMineImage = mineIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+                    button.setIcon(new ImageIcon(scaledMineImage));
                 } else if (cell.getNumber() > 0) {
                     button.setText(String.valueOf(cell.getNumber()));
                 }
@@ -136,8 +165,10 @@ public class MinesweeperGUI extends JFrame {
     }
 
     private void restartGame() {
-        initializeGame();
+        game.resetGame(); // Reset the game state
+        renderGrid(); // Re-render the grid
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
