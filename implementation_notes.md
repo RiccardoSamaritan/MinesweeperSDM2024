@@ -15,10 +15,10 @@ TESTS:
 - game over conditions 
   - a cell with a mine is marked as 'revealed' DONE
 - user-server interaction
-  - nothing happens when leftclicking or rightclicking on a revealed cell
+  - nothing happens when leftclicking or rightclicking on a revealed cell 
   - mark an unrevealed cell as 'flagged' when rightclicked on it
   - mark an unrevealed cell as 'revealed' when leftclicked on it
-  - delete the 'flagged' marker on a cell when rightclicking on an already marked as 'flagged' one
+  - unflag a 'flagged' cell when rightclicked on it
 - graphical user interface 
   - render the grid correctly 
   - show the content of the cell once marked as 'revealed'

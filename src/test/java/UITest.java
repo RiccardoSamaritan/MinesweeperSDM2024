@@ -1,12 +1,9 @@
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import javax.swing.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UserInteraction {
+public class UITest {
 
     @Test
     public void DoNothingWhenAlreadyRevealed() {
@@ -37,5 +34,4 @@ public class UserInteraction {
                 () -> assertEquals(initialNumber, cell.getNumber(), "number should remain unchanged")
         );
     }
-
 }
