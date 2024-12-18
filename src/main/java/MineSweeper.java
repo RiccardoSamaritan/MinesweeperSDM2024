@@ -14,7 +14,8 @@ public class MineSweeper {
         gameOver = false;
         gameWon = false;
         minesCounter = minefield.countMines();
-        initializeGrid(); //calls methods initializeGrid to initialize empty cells
+        initializeGrid();
+        placeMines();
     }
 
     //initializes all the cells
