@@ -75,8 +75,31 @@ public class MineSweeper {
         boolean hasMine = cell.reveal(); //.reveal returns true if the cell has a mine
         if (hasMine) {
             gameOver = true;
+        } else {
+            if (cell.getNumber() == 0) {
+                revealNeighbours(row, col);
+            }
         }
         return true; // returns true if the cell can be reveled, regardless of whether it contains a mine
+    }
+
+    // reveals the neighbours of a cell
+    private void revealNeighbours(int row, int col) {
+
+        int[] rowOffsets = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int[] colOffsets = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+        for (int i = 0; i < 8; i++) {
+            int newRow = row + rowOffsets[i];
+            int newCol = col + colOffsets[i];
+
+            if (isValidCell(newRow, newCol)) {
+                Cell cell = grid[newRow][newCol];
+                if (!cell.isRevealed()) {
+                    revealCell(newRow, newCol);
+                }
+            }
+        }
     }
 
     public boolean flagCell(int row, int col) {

@@ -107,4 +107,40 @@ public class CellsTest {
         game.getGrid()[4][4].setNumber(game.getGrid(), 4, 4);
         assertEquals(0, game.getGrid()[4][4].getNumber(), "Number of mines around the cell should be 0");
     }
+
+    // If cell number is 0, revealCell() should call revealNeighbours()
+    @Test
+    void testRevealCellCallsRevealNeighbours() {
+        Minefield minefield = new Minefield(9, 9, 10);
+        MineSweeper game = new MineSweeper(minefield);
+
+        game.getGrid()[0][1].setMine(false);
+        game.getGrid()[1][0].setMine(false);
+        game.getGrid()[1][1].setMine(false);
+
+        game.getGrid()[0][0].setNumber(game.getGrid(), 0, 0);
+        game.revealCell(0, 0);
+        assertTrue(game.getGrid()[0][1].isRevealed(), "Neighbour cell should be revealed");
+        assertTrue(game.getGrid()[1][0].isRevealed(), "Neighbour cell should be revealed");
+        assertTrue(game.getGrid()[1][1].isRevealed(), "Neighbour cell should be revealed");
+    }
+
+    // If a cell number is not 0, revealCell() should not call revealNeighbours()
+    @Test
+    void testRevealCellDoesNotCallRevealNeighbours() {
+        Minefield minefield = new Minefield(9, 9, 10);
+        MineSweeper game = new MineSweeper(minefield);
+
+        game.getGrid()[0][1].setMine(true);
+        game.getGrid()[1][0].setMine(false);
+        game.getGrid()[1][1].setMine(false);
+
+        game.getGrid()[0][0].setNumber(game.getGrid(), 0, 0);
+        game.revealCell(0, 0);
+        assertFalse(game.getGrid()[0][1].isRevealed(), "Neighbour cell should not be revealed");
+        assertFalse(game.getGrid()[1][0].isRevealed(), "Neighbour cell should not be revealed");
+        assertFalse(game.getGrid()[1][1].isRevealed(), "Neighbour cell should not be revealed");
+    }
 }
+
+
