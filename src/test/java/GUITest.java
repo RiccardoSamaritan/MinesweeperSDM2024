@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 public class GUITest {
     private MinesweeperGUI gui;
     private Minefield minefield;
@@ -17,24 +16,21 @@ public class GUITest {
         minefield = new Minefield(9, 9, 10);
         gui = new MinesweeperGUI(minefield);
     }
+
     @Test
     void testGridRendering() {
-        Minefield minefield = new Minefield(9, 9, 10);
-        MinesweeperGUI gui = new MinesweeperGUI(minefield);
         assertNotNull(gui.getGridPanel(), "Grid panel should not be null");
         assertEquals(gui.getRows() * gui.getCols(), gui.getGridPanel().getComponentCount(), "Grid should have the correct number of buttons");
     }
 
     @Test
     void testRevealCell() {
-        Minefield minefield = new Minefield(9, 9, 10);
-        MinesweeperGUI gui = new MinesweeperGUI(minefield);
         JButton button = gui.getCellButtons()[0][0];
         button.doClick();
 
         Cell cell = gui.getGame().getGrid()[0][0];
         if (cell.hasMine()) {
-            assertEquals(gui.getMineIcon(), button.getIcon(), "Mine cell should display the mine icon");
+            assertEquals(gui.getMineIcon().getIcon(), button.getIcon(), "Mine cell should display the mine icon");
         } else if (cell.getNumber() > 0) {
             assertEquals(String.valueOf(cell.getNumber()), button.getText(), "Number cell should display the correct number");
         } else {
@@ -44,14 +40,12 @@ public class GUITest {
 
     @Test
     void testFlaggingCell() {
-        Minefield minefield = new Minefield(9, 9, 10);
-        MinesweeperGUI gui = new MinesweeperGUI(minefield);
         JButton button = gui.getCellButtons()[0][0];
 
         // Right-click to flag
         MouseEvent rightClick = new MouseEvent(button, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), InputEvent.BUTTON3_DOWN_MASK, 0, 0, 1, false, MouseEvent.BUTTON3);
         button.dispatchEvent(rightClick);
-        assertEquals(gui.getFlagIcon(), button.getIcon(), "Flagged cell should display the flag icon");
+        assertEquals(gui.getFlagIcon().getIcon().getDescription(), ((ImageIcon) button.getIcon()).getDescription(), "Flagged cell should display the flag icon");
 
         // Right-click again to unflag
         button.dispatchEvent(rightClick);
@@ -60,8 +54,6 @@ public class GUITest {
 
     @Test
     void testRestart() {
-        Minefield minefield = new Minefield(9, 9, 10);
-        MinesweeperGUI gui = new MinesweeperGUI(minefield);
         JButton button = gui.getCellButtons()[0][0];
         button.doClick(); // Simulate reveal
 

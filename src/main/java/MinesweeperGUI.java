@@ -13,8 +13,8 @@ public class MinesweeperGUI extends JFrame {
     private int cols;
     private int mines;
 
-    private ImageIcon mineIcon;
-    private ImageIcon flagIcon;
+    private IconWrapper mineIcon;
+    private IconWrapper flagIcon;
 
     public MinesweeperGUI(Minefield minefield) {
         this.rows = minefield.getRows();
@@ -30,8 +30,8 @@ public class MinesweeperGUI extends JFrame {
             BufferedImage mineImage = ImageIO.read(getClass().getResource("/images/mine.png"));
             BufferedImage flagImage = ImageIO.read(getClass().getResource("/images/flag.png"));
 
-            mineIcon = new ImageIcon(mineImage);
-            flagIcon = new ImageIcon(flagImage);
+            mineIcon = new IconWrapper(new ImageIcon(mineImage));
+            flagIcon = new IconWrapper(new ImageIcon(flagImage));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -99,7 +99,7 @@ public class MinesweeperGUI extends JFrame {
         if (cell.hasMine()) {
             int iconWidth = button.getWidth();
             int iconHeight = button.getHeight();
-            Image scaledMineImage = mineIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+            Image scaledMineImage = mineIcon.getIcon().getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
             button.setIcon(new ImageIcon(scaledMineImage));
             button.setBackground(Color.RED);
             endGame(false);
@@ -118,7 +118,7 @@ public class MinesweeperGUI extends JFrame {
             if (button.getIcon() == null) {
                 int iconWidth = button.getWidth();
                 int iconHeight = button.getHeight();
-                Image scaledFlagImage = flagIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+                Image scaledFlagImage = flagIcon.getIcon().getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
                 button.setIcon(new ImageIcon(scaledFlagImage));
             } else {
                 button.setIcon(null);
@@ -135,8 +135,7 @@ public class MinesweeperGUI extends JFrame {
                 if (cell.hasMine()) {
                     int iconWidth = button.getWidth();
                     int iconHeight = button.getHeight();
-                    Image scaledMineImage = mineIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
-                    button.setIcon(new ImageIcon(scaledMineImage));
+                    Image scaledMineImage = mineIcon.getIcon().getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);                    button.setIcon(new ImageIcon(scaledMineImage));
                 } else if (cell.getNumber() > 0) {
                     button.setText(String.valueOf(cell.getNumber()));
                 }
@@ -169,7 +168,6 @@ public class MinesweeperGUI extends JFrame {
         renderGrid(); // Re-render the grid
     }
 
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Minefield minefield = new Minefield(9, 9, 10);
@@ -197,11 +195,11 @@ public class MinesweeperGUI extends JFrame {
         return game;
     }
 
-    public ImageIcon getMineIcon() {
+    public IconWrapper getMineIcon() {
         return mineIcon;
     }
 
-    public ImageIcon getFlagIcon() {
+    public IconWrapper getFlagIcon() {
         return flagIcon;
     }
 }
