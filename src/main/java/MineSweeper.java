@@ -47,7 +47,6 @@ public class MineSweeper {
         }
     }
 
-
     // places mines randomly in the grid
     private void placeMines() {
         Random rand = new Random();

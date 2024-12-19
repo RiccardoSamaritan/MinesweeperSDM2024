@@ -9,7 +9,10 @@ TESTS:
 - cells
   - once a cell is marked as 'flagged' not able to be marked as 'revealed' DONE
   - once a cell is marked as 'revealed' not able to be marked as 'flagged' DONE
-  - once a cell is marked as 'revealed' not able to be marked as 'revealed' again 
+  - once a cell is marked as 'revealed', it can be revealed again DONE
+  - If there are 3 mines in neighbour cells, getNumber() should return 3 DONE
+  - Only mines in neighbour cells should be counted DONE
+  - If there's no mine in neighbour cells, getNumber() should return 0 DONE
 - winning conditions
   - all cells except those with mines are marked as 'revealed' DONE
 - game over conditions 

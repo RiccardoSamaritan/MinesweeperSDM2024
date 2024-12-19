@@ -16,21 +16,26 @@ public class Cell {
         return hasMine;
     }
 
+    // Set the mine in the cell
     public void setMine(boolean hasMine) {
         this.hasMine = hasMine;
     }
 
+    // Check if the cell is revealed
     public boolean isRevealed() {
         return isRevealed;
     }
 
+    // Check if the cell is flagged
     public boolean isFlagged() {
         return isFlagged;
     }
 
+    // Get the number of mines around the cell
     public int getNumber() {
         return number;
     }
+
 
     public boolean reveal() {
         if (!isFlagged && !isRevealed) { //can't reveal a flagged cell or an already revealed cell
@@ -49,6 +54,7 @@ public class Cell {
     }
 
     public void setNumber(Cell[][] grid, int row, int col) {
+
         int[] rowOffsets = {-1, -1, -1, 0, 0, 1, 1, 1};
         int[] colOffsets = {-1, 0, 1, -1, 1, -1, 0, 1};
         int mineCount = 0;
