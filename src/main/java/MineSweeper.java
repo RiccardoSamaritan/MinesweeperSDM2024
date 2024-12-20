@@ -2,13 +2,11 @@ public class MineSweeper {
     private Minefield minefield;
     Cell[][] grid;
     private boolean gameOver;
-    private boolean gameWon;
 
     public MineSweeper(Minefield minefield) {
         this.minefield = minefield;
         this.grid = minefield.getGrid();
         gameOver = false;
-        gameWon = false;
         calculateNumbers();
     }
 
@@ -38,7 +36,6 @@ public class MineSweeper {
                 if (!grid[row][col].hasMine()) {
                     int adjacentMines = countAdjacentMines(grid, row, col);
                     grid[row][col].setNumber(adjacentMines);
-                } else {
                 }
             }
         }
@@ -92,7 +89,6 @@ public class MineSweeper {
         minefield.placeMines();
         this.grid = minefield.getGrid();
         gameOver = false;
-        gameWon = false;
         calculateNumbers();
     }
 
@@ -114,25 +110,15 @@ public class MineSweeper {
         }
     }
 
-    public boolean getGameWon() {
-        return gameWon;
-    }
-
-    public void GameWon() {
-        if(gameOver){
-            return;
-        }
-        WinningConditions winningConditions = new WinningConditions();
-        if (winningConditions.AllCellsRevealed()) {
-            gameWon = true;
-            for (int i = 0; i < minefield.getColumns(); i++) {
-                for (int j = 0; j < minefield.getRows(); j++) {
-                    Cell cell = grid[i][j];
-                    if (!cell.isFlagged()) {
-                        cell.flag();
-                    }
+    public boolean checkWinCondition() {
+        for (int row = 0; row < minefield.getRows(); row++) {
+            for (int col = 0; col < minefield.getColumns(); col++) {
+                Cell cell = getGrid()[row][col];
+                if (!cell.hasMine() && !cell.isRevealed()) {
+                    return false;
                 }
             }
         }
+        return true;
     }
 }

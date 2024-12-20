@@ -187,7 +187,7 @@ public class MinesweeperGUI extends JFrame {
             button.setBorder(BorderFactory.createEmptyBorder());
         }
 
-        if (checkWinCondition()) {
+        if (game.checkWinCondition()) {
             endGame(true);
         }
     }
@@ -263,18 +263,6 @@ public class MinesweeperGUI extends JFrame {
                 button.setEnabled(false);
             }
         }
-    }
-
-    private boolean checkWinCondition() {
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                Cell cell = game.getGrid()[row][col];
-                if (!cell.hasMine() && !cell.isRevealed()) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     private void endGame(boolean isWin) {
