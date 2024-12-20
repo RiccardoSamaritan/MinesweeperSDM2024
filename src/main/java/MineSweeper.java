@@ -1,30 +1,15 @@
-import java.util.Random;
-
 public class MineSweeper {
     private Minefield minefield;
     private Cell[][] grid;
     private boolean gameOver;
     private boolean gameWon;
-    private int minesCounter;
 
-    //creates the minefield
     public MineSweeper(Minefield minefield) {
         this.minefield = minefield;
-        grid = new Cell[minefield.getRows()][minefield.getColumns()];
+        this.grid = minefield.getGrid();
         gameOver = false;
         gameWon = false;
-        minesCounter = minefield.countMines();
-        initializeGrid();
-        placeMines();
-    }
-
-    //initializes all the cells
-    private void initializeGrid() {
-        for (int i = 0; i < minefield.getRows(); i++) {
-            for (int j = 0; j < minefield.getColumns(); j++) {
-                grid[i][j] = new Cell();
-            }
-        }
+        calculateNumbers();
     }
 
     public Cell[][] getGrid() {
@@ -47,26 +32,7 @@ public class MineSweeper {
         }
     }
 
-    // places mines randomly in the grid
-    private void placeMines() {
-        Random rand = new Random();
-        int minesToPlace = minefield.countMines();
-
-        // Place the mines randomly in the grid
-        while (minesToPlace > 0) {
-            int row = rand.nextInt(minefield.getRows());  // Random row index
-            int col = rand.nextInt(minefield.getColumns());  // Random column index
-
-            Cell cell = grid[row][col];
-            if (!cell.hasMine()) {  // if the cell doesn't already have a mine
-                cell.setMine(true);  // set the cell to have a mine
-                minesToPlace--;  // decrease the remaining mines to place
-            }
-        }
-    }
-
     public void calculateNumbers() {
-        Cell[][] grid = minefield.getGrid();
         for (int row = 0; row < minefield.getRows(); row++) {
             for (int col = 0; col < minefield.getColumns(); col++) {
                 if (!grid[row][col].hasMine()) {
@@ -123,19 +89,19 @@ public class MineSweeper {
         return row >= 0 && row < minefield.getRows() && col >= 0 && col < minefield.getColumns();
     }
 
-    // Reset the game
     public void resetGame() {
-        initializeGrid();
-        placeMines();
+        minefield.initializeGrid();
+        minefield.placeMines();
+        this.grid = minefield.getGrid();
         gameOver = false;
         gameWon = false;
+        calculateNumbers();
     }
 
     public boolean getGameOver() {
         return gameOver;
     }
 
-    // Game over when a mine is revealed, reveals all mines
     public void GameOver() {
         gameOver = true;
 
@@ -161,7 +127,6 @@ public class MineSweeper {
         WinningConditions winningConditions = new WinningConditions();
         if (winningConditions.AllCellsRevealed()) {
             gameWon = true;
-            // Flag all the cells not already flagged
             for (int i = 0; i < minefield.getColumns(); i++) {
                 for (int j = 0; j < minefield.getRows(); j++) {
                     Cell cell = grid[i][j];
@@ -173,4 +138,3 @@ public class MineSweeper {
         }
     }
 }
-

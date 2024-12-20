@@ -15,7 +15,7 @@ public class Minefield {
         placeMines();
     }
 
-    private void initializeGrid() {
+    public void initializeGrid() {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 grid[row][col] = new Cell();
@@ -23,7 +23,7 @@ public class Minefield {
         }
     }
 
-    private void placeMines() {
+    public void placeMines() {
         Random random = new Random();
         int minesPlaced = 0;
 
