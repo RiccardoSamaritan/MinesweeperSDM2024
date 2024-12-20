@@ -1,6 +1,6 @@
 public class MineSweeper {
     private Minefield minefield;
-    private Cell[][] grid;
+    Cell[][] grid;
     private boolean gameOver;
     private boolean gameWon;
 
@@ -38,9 +38,7 @@ public class MineSweeper {
                 if (!grid[row][col].hasMine()) {
                     int adjacentMines = countAdjacentMines(grid, row, col);
                     grid[row][col].setNumber(adjacentMines);
-                    System.out.println("Set number for cell (" + row + ", " + col + "): " + adjacentMines);
                 } else {
-                    System.out.println("Cell (" + row + ", " + col + ") has a mine.");
                 }
             }
         }
@@ -69,7 +67,7 @@ public class MineSweeper {
         if (gameOver || !isValidCell(row, col)) return false;
 
         Cell cell = grid[row][col];
-        if (cell.isFlagged() || cell.isRevealed()) return false;
+        if (cell.isFlagged()) return false;
 
         boolean hasMine = cell.reveal(); // .reveal returns true if the cell has a mine
         if (hasMine) {
