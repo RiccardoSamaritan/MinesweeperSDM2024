@@ -218,13 +218,46 @@ public class MinesweeperGUI extends JFrame {
                     int iconHeight = button.getHeight();
                     Image scaledMineImage = mineIcon.getIcon().getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
                     button.setIcon(new ImageIcon(scaledMineImage));
-                } else if (cell.getNumber() > 0) {
-                    button.setText(String.valueOf(cell.getNumber()));
                 } else {
-                    int iconWidth = button.getWidth();
-                    int iconHeight = button.getHeight();
-                    Image scaledEmptyImage = emptyIcon.getIcon().getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
-                    button.setIcon(new ImageIcon(scaledEmptyImage));
+                    int number = cell.getNumber();
+                    IconWrapper iconWrapper = null;
+
+                    switch (number) {
+                        case 1:
+                            iconWrapper = oneIcon;
+                            break;
+                        case 2:
+                            iconWrapper = twoIcon;
+                            break;
+                        case 3:
+                            iconWrapper = threeIcon;
+                            break;
+                        case 4:
+                            iconWrapper = fourIcon;
+                            break;
+                        case 5:
+                            iconWrapper = fiveIcon;
+                            break;
+                        case 6:
+                            iconWrapper = sixIcon;
+                            break;
+                        case 7:
+                            iconWrapper = sevenIcon;
+                            break;
+                        case 8:
+                            iconWrapper = eightIcon;
+                            break;
+                        default:
+                            iconWrapper = emptyIcon;
+                            break;
+                    }
+
+                    if (iconWrapper != null) {
+                        int iconWidth = button.getWidth();
+                        int iconHeight = button.getHeight();
+                        Image scaledImage = iconWrapper.getIcon().getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+                        button.setIcon(new ImageIcon(scaledImage));
+                    }
                 }
 
                 button.setEnabled(false);
