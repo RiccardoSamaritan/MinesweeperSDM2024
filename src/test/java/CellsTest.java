@@ -99,12 +99,11 @@ public class CellsTest {
         game.getGrid()[3][4].setMine(false);
         game.getGrid()[4][3].setMine(false);
         game.getGrid()[3][5].setMine(false);
-        game.getGrid()[5][4].setMine(false);
+        game.getGrid()[5][3].setMine(false);
         game.getGrid()[4][5].setMine(false);
         game.getGrid()[5][4].setMine(false);
         game.getGrid()[5][5].setMine(false);
         game.calculateNumbers();
-        game.getGrid()[4][4].getNumber();
         assertEquals(0, game.getGrid()[4][4].getNumber(), "Number of mines around the cell should be 0");
     }
 

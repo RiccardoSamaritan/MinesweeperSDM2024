@@ -60,6 +60,24 @@ public class MineSweeper {
         return mineCount;
     }
 
+    private void revealAdjacentCells(int row, int col) {
+        int[] rowOffsets = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int[] colOffsets = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+        for (int i = 0; i < 8; i++) {
+            int newRow = row + rowOffsets[i];
+            int newCol = col + colOffsets[i];
+
+            if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid[0].length) {
+                System.out.println("Checking cell (" + newRow + "," + newCol + ")");
+                if (!grid[newRow][newCol].isRevealed()) {
+                    System.out.println("Revealing cell (" + newRow + "," + newCol + ")");
+                    revealCell(newRow, newCol);
+                }
+            }
+        }
+    }
+
     public boolean revealCell(int row, int col) {
         if (gameOver || !isValidCell(row, col)) return false;
 
@@ -69,6 +87,10 @@ public class MineSweeper {
         boolean hasMine = cell.reveal(); // .reveal returns true if the cell has a mine
         if (hasMine) {
             gameOver = true;
+        }
+
+        if (cell.getNumber() == 0) {
+            revealAdjacentCells(row, col);
         }
         return true; // returns true if the cell can be revealed, regardless of whether it contains a mine
     }
@@ -94,20 +116,6 @@ public class MineSweeper {
 
     public boolean getGameOver() {
         return gameOver;
-    }
-
-    public void GameOver() {
-        gameOver = true;
-
-        for (int i = 0; i < minefield.getColumns(); i++) {
-            for (int j = 0; j < minefield.getRows(); j++) {
-                Cell cell = grid[i][j];
-
-                if (cell.hasMine()) {
-                    cell.reveal();
-                }
-            }
-        }
     }
 
     public boolean checkWinCondition() {

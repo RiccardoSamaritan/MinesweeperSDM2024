@@ -310,4 +310,44 @@ public class MinesweeperGUI extends JFrame {
     public IconWrapper getFlagIcon() {
         return flagIcon;
     }
+
+    public IconWrapper getEmptyIcon() {
+        return emptyIcon;
+    }
+
+    public IconWrapper getCoveredIcon() {
+        return coveredIcon;
+    }
+
+    public IconWrapper getOneIcon() {
+        return oneIcon;
+    }
+
+    public IconWrapper getTwoIcon() {
+        return twoIcon;
+    }
+
+    public IconWrapper getThreeIcon() {
+        return threeIcon;
+    }
+
+    public IconWrapper getFourIcon() {
+        return fourIcon;
+    }
+
+    public IconWrapper getFiveIcon() {
+        return fiveIcon;
+    }
+
+    public IconWrapper getSixIcon() {
+        return sixIcon;
+    }
+
+    public IconWrapper getSevenIcon() {
+        return sevenIcon;
+    }
+
+    public IconWrapper getEightIcon() {
+        return eightIcon;
+    }
 }

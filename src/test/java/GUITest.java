@@ -49,7 +49,8 @@ public class GUITest {
 
         // Right-click again to unflag
         button.dispatchEvent(rightClick);
-        assertNull(button.getIcon(), "Unflagged cell should have no icon");
+        assertEquals(gui.getCoveredIcon().getIcon().getDescription(), (((ImageIcon) button.getIcon()).getDescription()), "Unflagged cell should have covereed icon");
+
     }
 
     @Test
