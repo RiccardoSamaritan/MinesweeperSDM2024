@@ -65,27 +65,23 @@ public class MineSweeper {
         }
     }
 
-
-    public boolean revealCell(int row, int col) {
-        if (gameOver || !isValidCell(row, col)) return false;
-
-        Cell cell = grid[row][col];
-        if (cell.isFlagged()) return false;
-
-        boolean hasMine = cell.reveal(); //.reveal returns true if the cell has a mine
-        if (hasMine) {
-            gameOver = true;
-        } else {
-            if (cell.getNumber() == 0) {
-                revealNeighbours(row, col);
+    public void calculateNumbers() {
+        Cell[][] grid = minefield.getGrid();
+        for (int row = 0; row < minefield.getRows(); row++) {
+            for (int col = 0; col < minefield.getColumns(); col++) {
+                if (!grid[row][col].hasMine()) {
+                    int adjacentMines = countAdjacentMines(grid, row, col);
+                    grid[row][col].setNumber(adjacentMines);
+                    System.out.println("Set number for cell (" + row + ", " + col + "): " + adjacentMines);
+                } else {
+                    System.out.println("Cell (" + row + ", " + col + ") has a mine.");
+                }
             }
         }
-        return true; // returns true if the cell can be reveled, regardless of whether it contains a mine
     }
 
-    // reveals the neighbours of a cell
-    private void revealNeighbours(int row, int col) {
-
+    private int countAdjacentMines(Cell[][] grid, int row, int col) {
+        int mineCount = 0;
         int[] rowOffsets = {-1, -1, -1, 0, 0, 1, 1, 1};
         int[] colOffsets = {-1, 0, 1, -1, 1, -1, 0, 1};
 
@@ -93,13 +89,27 @@ public class MineSweeper {
             int newRow = row + rowOffsets[i];
             int newCol = col + colOffsets[i];
 
-            if (isValidCell(newRow, newCol)) {
-                Cell cell = grid[newRow][newCol];
-                if (!cell.isRevealed()) {
-                    revealCell(newRow, newCol);
+            if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid[0].length) {
+                if (grid[newRow][newCol].hasMine()) {
+                    mineCount++;
                 }
             }
         }
+
+        return mineCount;
+    }
+
+    public boolean revealCell(int row, int col) {
+        if (gameOver || !isValidCell(row, col)) return false;
+
+        Cell cell = grid[row][col];
+        if (cell.isFlagged() || cell.isRevealed()) return false;
+
+        boolean hasMine = cell.reveal(); // .reveal returns true if the cell has a mine
+        if (hasMine) {
+            gameOver = true;
+        }
+        return true; // returns true if the cell can be revealed, regardless of whether it contains a mine
     }
 
     public boolean flagCell(int row, int col) {

@@ -53,24 +53,9 @@ public class Cell {
         return false;
     }
 
-    public void setNumber(Cell[][] grid, int row, int col) {
 
-        int[] rowOffsets = {-1, -1, -1, 0, 0, 1, 1, 1};
-        int[] colOffsets = {-1, 0, 1, -1, 1, -1, 0, 1};
-        int mineCount = 0;
-
-        for (int i = 0; i < 8; i++) {
-            int newRow = row + rowOffsets[i];
-            int newCol = col + colOffsets[i];
-
-            // Check if the new indices are within the grid boundaries
-            if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid[0].length) {
-                if (grid[newRow][newCol].hasMine()) {
-                    mineCount++;
-                }
-            }
-        }
-
-        this.number = mineCount;
+    public void setNumber(int number) {
+        this.number = number;
     }
+
 }

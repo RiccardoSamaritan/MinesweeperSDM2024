@@ -12,11 +12,19 @@ public class MinesweeperGUI extends JFrame {
     private int rows;
     private int cols;
     private int mines;
-
     private IconWrapper mineIcon;
     private IconWrapper flagIcon;
     private IconWrapper emptyIcon;
     private IconWrapper coveredIcon;
+    private IconWrapper oneIcon;
+    private IconWrapper twoIcon;
+    private IconWrapper threeIcon;
+    private IconWrapper fourIcon;
+    private IconWrapper fiveIcon;
+    private IconWrapper sixIcon;
+    private IconWrapper sevenIcon;
+    private IconWrapper eightIcon;
+
 
     public MinesweeperGUI(Minefield minefield) {
         this.rows = minefield.getRows();
@@ -24,7 +32,7 @@ public class MinesweeperGUI extends JFrame {
         this.mines = minefield.countMines();
         this.game = new MineSweeper(minefield);
         loadIcons();
-        initializeGame(); // Ensure this is called after setting rows and cols
+        initializeGame();
     }
 
     private void loadIcons() {
@@ -33,11 +41,27 @@ public class MinesweeperGUI extends JFrame {
             BufferedImage flagImage = ImageIO.read(getClass().getResource("/images/flag.png"));
             BufferedImage emptyImage = ImageIO.read(getClass().getResource("/images/empty.png"));
             BufferedImage coveredImage = ImageIO.read(getClass().getResource("/images/cell.png"));
+            BufferedImage oneImage = ImageIO.read(getClass().getResource("/images/1.png"));
+            BufferedImage twoImage = ImageIO.read(getClass().getResource("/images/2.png"));
+            BufferedImage threeImage = ImageIO.read(getClass().getResource("/images/3.png"));
+            BufferedImage fourImage = ImageIO.read(getClass().getResource("/images/4.png"));
+            BufferedImage fiveImage = ImageIO.read(getClass().getResource("/images/5.png"));
+            BufferedImage sixImage = ImageIO.read(getClass().getResource("/images/6.png"));
+            BufferedImage sevenImage = ImageIO.read(getClass().getResource("/images/7.png"));
+            BufferedImage eightImage = ImageIO.read(getClass().getResource("/images/8.png"));
 
             mineIcon = new IconWrapper(new ImageIcon(mineImage));
             flagIcon = new IconWrapper(new ImageIcon(flagImage));
             emptyIcon = new IconWrapper(new ImageIcon(emptyImage));
             coveredIcon = new IconWrapper(new ImageIcon(coveredImage));
+            oneIcon = new IconWrapper(new ImageIcon(oneImage));
+            twoIcon = new IconWrapper(new ImageIcon(twoImage));
+            threeIcon = new IconWrapper(new ImageIcon(threeImage));
+            fourIcon = new IconWrapper(new ImageIcon(fourImage));
+            fiveIcon = new IconWrapper(new ImageIcon(fiveImage));
+            sixIcon = new IconWrapper(new ImageIcon(sixImage));
+            sevenIcon = new IconWrapper(new ImageIcon(sevenImage));
+            eightIcon = new IconWrapper(new ImageIcon(eightImage));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,6 +83,7 @@ public class MinesweeperGUI extends JFrame {
         add(gridPanel, BorderLayout.CENTER);
         add(restartButton, BorderLayout.SOUTH);
 
+        game.calculateNumbers();
         setVisible(true);
     }
 
@@ -68,9 +93,6 @@ public class MinesweeperGUI extends JFrame {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 JButton button = new JButton();
-                button.setFont(new Font("Arial", Font.BOLD, 16));
-                button.setName("cell-" + row + "-" + col);
-
                 button.addComponentListener(new ComponentAdapter() {
                     @Override
                     public void componentResized(ComponentEvent e) {
@@ -119,14 +141,46 @@ public class MinesweeperGUI extends JFrame {
             button.setBackground(Color.RED);
             endGame(false);
         } else {
-            if (cell.getNumber() > 0) {
-                button.setText(String.valueOf(cell.getNumber()));
-            } else {
+            int number = cell.getNumber();
+            IconWrapper iconWrapper = null;
+
+            switch (number) {
+                case 1:
+                    iconWrapper = oneIcon;
+                    break;
+                case 2:
+                    iconWrapper = twoIcon;
+                    break;
+                case 3:
+                    iconWrapper = threeIcon;
+                    break;
+                case 4:
+                    iconWrapper = fourIcon;
+                    break;
+                case 5:
+                    iconWrapper = fiveIcon;
+                    break;
+                case 6:
+                    iconWrapper = sixIcon;
+                    break;
+                case 7:
+                    iconWrapper = sevenIcon;
+                    break;
+                case 8:
+                    iconWrapper = eightIcon;
+                    break;
+                default:
+                    iconWrapper = emptyIcon;
+                    break;
+            }
+
+            if (iconWrapper != null) {
                 int iconWidth = button.getWidth();
                 int iconHeight = button.getHeight();
-                Image scaledEmptyImage = emptyIcon.getIcon().getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
-                button.setIcon(new ImageIcon(scaledEmptyImage));
+                Image scaledImage = iconWrapper.getIcon().getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+                button.setIcon(new ImageIcon(scaledImage));
             }
+
             for (MouseListener listener : button.getMouseListeners()) {
                 button.removeMouseListener(listener);
             }
@@ -167,7 +221,6 @@ public class MinesweeperGUI extends JFrame {
                 } else if (cell.getNumber() > 0) {
                     button.setText(String.valueOf(cell.getNumber()));
                 } else {
-                    // Scale the empty icon
                     int iconWidth = button.getWidth();
                     int iconHeight = button.getHeight();
                     Image scaledEmptyImage = emptyIcon.getIcon().getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);

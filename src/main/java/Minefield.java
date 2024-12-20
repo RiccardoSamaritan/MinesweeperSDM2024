@@ -13,7 +13,6 @@ public class Minefield {
         this.grid = new Cell[rows][cols];
         initializeGrid();
         placeMines();
-        calculateNumbers();
     }
 
     private void initializeGrid() {
@@ -35,16 +34,6 @@ public class Minefield {
             if (!grid[row][col].hasMine()) {
                 grid[row][col].setMine(true);
                 minesPlaced++;
-            }
-        }
-    }
-
-    private void calculateNumbers() {
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                if (!grid[row][col].hasMine()) {
-                    grid[row][col].setNumber(grid, row, col);
-                }
             }
         }
     }
