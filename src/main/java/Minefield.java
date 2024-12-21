@@ -38,9 +38,6 @@ public class Minefield {
         }
     }
 
-    private boolean isValidCell(int row, int col) {
-        return row >= 0 && row < rows && col >= 0 && col < cols;
-    }
 
     public int getRows() {
         return rows;

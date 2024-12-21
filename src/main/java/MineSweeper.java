@@ -69,9 +69,7 @@ public class MineSweeper {
             int newCol = col + colOffsets[i];
 
             if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid[0].length) {
-                System.out.println("Checking cell (" + newRow + "," + newCol + ")");
                 if (!grid[newRow][newCol].isRevealed()) {
-                    System.out.println("Revealing cell (" + newRow + "," + newCol + ")");
                     revealCell(newRow, newCol);
                 }
             }

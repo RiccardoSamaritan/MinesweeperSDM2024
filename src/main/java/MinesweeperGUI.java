@@ -141,54 +141,75 @@ public class MinesweeperGUI extends JFrame {
             button.setBackground(Color.RED);
             endGame(false);
         } else {
-            int number = cell.getNumber();
-            IconWrapper iconWrapper = null;
-
-            switch (number) {
-                case 1:
-                    iconWrapper = oneIcon;
-                    break;
-                case 2:
-                    iconWrapper = twoIcon;
-                    break;
-                case 3:
-                    iconWrapper = threeIcon;
-                    break;
-                case 4:
-                    iconWrapper = fourIcon;
-                    break;
-                case 5:
-                    iconWrapper = fiveIcon;
-                    break;
-                case 6:
-                    iconWrapper = sixIcon;
-                    break;
-                case 7:
-                    iconWrapper = sevenIcon;
-                    break;
-                case 8:
-                    iconWrapper = eightIcon;
-                    break;
-                default:
-                    iconWrapper = emptyIcon;
-                    break;
-            }
-
-            if (iconWrapper != null) {
-                int iconWidth = button.getWidth();
-                int iconHeight = button.getHeight();
-                Image scaledImage = iconWrapper.getIcon().getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
-                button.setIcon(new ImageIcon(scaledImage));
-            }
-
-            for (MouseListener listener : button.getMouseListeners()) {
-                button.removeMouseListener(listener);
-            }
-            button.setBorder(BorderFactory.createEmptyBorder());
+            updateCellIcon(button, cell);
+            checkAndUpdateRevealedCells();
         }
 
         if (game.checkWinCondition()) {
             endGame(true);
+        }
+    }
+
+    private void updateCellIcon(JButton button, Cell cell) {
+        int number = cell.getNumber();
+        IconWrapper iconWrapper = null;
+
+        switch (number) {
+            case 1:
+                iconWrapper = oneIcon;
+                break;
+            case 2:
+                iconWrapper = twoIcon;
+                break;
+            case 3:
+                iconWrapper = threeIcon;
+                break;
+            case 4:
+                iconWrapper = fourIcon;
+                break;
+            case 5:
+                iconWrapper = fiveIcon;
+                break;
+            case 6:
+                iconWrapper = sixIcon;
+                break;
+            case 7:
+                iconWrapper = sevenIcon;
+                break;
+            case 8:
+                iconWrapper = eightIcon;
+                break;
+            default:
+                iconWrapper = emptyIcon;
+                break;
+        }
+
+        if (iconWrapper != null) {
+            int iconWidth = button.getWidth();
+            int iconHeight = button.getHeight();
+            Image scaledImage = iconWrapper.getIcon().getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
+            button.setIcon(new ImageIcon(scaledImage));
+        }
+
+        for (MouseListener listener : button.getMouseListeners()) {
+            button.removeMouseListener(listener);
+        }
+        button.setBorder(BorderFactory.createEmptyBorder());
+        button.setEnabled(true);
+
+    }
+
+    private void checkAndUpdateRevealedCells() {
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                Cell cell = game.getGrid()[row][col];
+                JButton button = cellButtons[row][col];
+
+                if (cell.isRevealed() && button.isEnabled()) {
+                    updateCellIcon(button, cell);
+                    button.setEnabled(true);
+                }
+            }
         }
     }
 
