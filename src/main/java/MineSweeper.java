@@ -1,12 +1,19 @@
+import java.time.Duration;
+import java.time.Instant;
+
 public class MineSweeper {
     private Minefield minefield;
-    Cell[][] grid;
+    private Cell[][] grid;
     private boolean gameOver;
+    private Instant startTime;
+    private Instant endTime;
 
     public MineSweeper(Minefield minefield) {
         this.minefield = minefield;
         this.grid = minefield.getGrid();
         gameOver = false;
+        startTime = null;
+        endTime = null;
         calculateNumbers();
     }
 
@@ -14,10 +21,9 @@ public class MineSweeper {
         return grid;
     }
 
-    public void printGrid(){
+    public void printGrid() {
         for (int i = 0; i < minefield.getRows(); i++) {
             for (int j = 0; j < minefield.getColumns(); j++) {
-
                 Object[] cellInfo = new Object[4];
                 cellInfo[0] = grid[i][j].getNumber();
                 cellInfo[1] = grid[i][j].isRevealed();
@@ -79,17 +85,28 @@ public class MineSweeper {
     public boolean revealCell(int row, int col) {
         if (gameOver || !isValidCell(row, col)) return false;
 
+        if (startTime == null) {
+            startTime = Instant.now(); // Avvia il cronometro alla prima rivelazione
+        }
+
         Cell cell = grid[row][col];
         if (cell.isFlagged()) return false;
 
         boolean hasMine = cell.reveal(); // .reveal returns true if the cell has a mine
         if (hasMine) {
             gameOver = true;
+            endTime = Instant.now(); // Ferma il cronometro in caso di sconfitta
         }
 
         if (cell.getNumber() == 0) {
             revealAdjacentCells(row, col);
         }
+
+        if (checkWinCondition()) {
+            gameOver = true;
+            endTime = Instant.now(); // Ferma il cronometro in caso di vittoria
+        }
+
         return true; // returns true if the cell can be revealed, regardless of whether it contains a mine
     }
 
@@ -109,6 +126,8 @@ public class MineSweeper {
         minefield.placeMines();
         this.grid = minefield.getGrid();
         gameOver = false;
+        startTime = null;
+        endTime = null;
         calculateNumbers();
     }
 
@@ -126,5 +145,15 @@ public class MineSweeper {
             }
         }
         return true;
+    }
+
+    public Duration getElapsedTime() {
+        if (startTime == null) {
+            return Duration.ZERO;
+        }
+        if (endTime == null) {
+            return Duration.between(startTime, Instant.now());
+        }
+        return Duration.between(startTime, endTime);
     }
 }

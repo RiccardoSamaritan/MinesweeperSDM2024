@@ -287,7 +287,8 @@ public class MinesweeperGUI extends JFrame {
     }
 
     private void endGame(boolean isWin) {
-        String message = isWin ? "Congratulations! You won!" : "Game Over! You hit a mine!";
+        long elapsedSeconds = game.getElapsedTime().getSeconds();
+        String message = isWin ? "Congratulations! You won in" + elapsedSeconds + "s!" : "Game Over! You hit a mine after " + elapsedSeconds + "s!";
         JOptionPane.showMessageDialog(this, message);
         revealAllCells();
     }
