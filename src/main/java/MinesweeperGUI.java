@@ -4,10 +4,15 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.Timer;
+import java.time.Duration;
+import java.time.Instant;
 
 public class MinesweeperGUI extends JFrame {
     private MineSweeper game;
     private JPanel gridPanel;
+    private JLabel timerLabel;
+    private JLabel flagCounterLabel;
     private JButton[][] cellButtons;
     private int rows;
     private int cols;
@@ -24,6 +29,11 @@ public class MinesweeperGUI extends JFrame {
     private IconWrapper sixIcon;
     private IconWrapper sevenIcon;
     private IconWrapper eightIcon;
+    private Timer timer;
+    private Instant startTime;
+    private boolean isTimerRunning = false;
+    private int flagCount = 0;
+
 
 
     public MinesweeperGUI(Minefield minefield) {
@@ -73,18 +83,30 @@ public class MinesweeperGUI extends JFrame {
         setLayout(new BorderLayout());
         setSize(600, 600);
 
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new FlowLayout());
+
+        timerLabel = new JLabel("Time:" + game.getElapsedTime().getSeconds());
+        topPanel.add(timerLabel);
+
+        JButton resetButton = new JButton("Reset");
+        resetButton.addActionListener(e -> restartGame());
+        topPanel.add(resetButton);
+
+        flagCounterLabel = new JLabel("Flags: 0");
+        topPanel.add(flagCounterLabel);
+
+        add(topPanel, BorderLayout.NORTH);
+
         gridPanel = new JPanel(new GridLayout(rows, cols));
         cellButtons = new JButton[rows][cols];
         renderGrid();
 
-        JButton restartButton = new JButton("Restart");
-        restartButton.addActionListener(e -> restartGame());
-
         add(gridPanel, BorderLayout.CENTER);
-        add(restartButton, BorderLayout.SOUTH);
 
         game.calculateNumbers();
         setVisible(true);
+
     }
 
     private void renderGrid() {
@@ -127,8 +149,24 @@ public class MinesweeperGUI extends JFrame {
         gridPanel.repaint();
     }
 
+    private void startTimer() {
+        startTime = Instant.now();
+        timer = new Timer(1000, e -> updateTimer());
+        timer.start();
+    }
+
+    private void updateTimer() {
+        Duration elapsedTime = Duration.between(startTime, Instant.now());
+        timerLabel.setText("Time: " + elapsedTime.getSeconds() + "s");
+    }
+
 
     private void handleLeftClick(int row, int col, JButton button) {
+        if (!isTimerRunning) {
+            startTimer();
+            isTimerRunning = true;
+        }
+
         if (!game.revealCell(row, col)) return;
 
         Cell cell = game.getGrid()[row][col];
@@ -214,6 +252,11 @@ public class MinesweeperGUI extends JFrame {
     }
 
     private void handleRightClick(int row, int col, JButton button) {
+        if (!isTimerRunning) {
+            startTimer();
+            isTimerRunning = true;
+        }
+
         Cell cell = game.getGrid()[row][col];
         if (game.flagCell(row, col)) {
             if (cell.isFlagged()) {
@@ -221,11 +264,18 @@ public class MinesweeperGUI extends JFrame {
                 int iconHeight = button.getHeight();
                 Image scaledFlagImage = flagIcon.getIcon().getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH);
                 button.setIcon(new ImageIcon(scaledFlagImage));
+                flagCount++;
             } else {
-                Image scaeldCoveredImage = coveredIcon.getIcon().getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
-                button.setIcon(new ImageIcon(scaeldCoveredImage));
+                Image scaledCoveredImage = coveredIcon.getIcon().getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                button.setIcon(new ImageIcon(scaledCoveredImage));
+                flagCount--;
             }
+            updateFlagCounter();
         }
+    }
+
+    private void updateFlagCounter() {
+        flagCounterLabel.setText("Flags: " + flagCount);
     }
 
     private void revealAllCells() {
@@ -287,17 +337,26 @@ public class MinesweeperGUI extends JFrame {
     }
 
     private void endGame(boolean isWin) {
+        if (timer != null) {
+            timer.stop();
+        }
         long elapsedSeconds = game.getElapsedTime().getSeconds();
-        String message = isWin ? "Congratulations! You won in" + elapsedSeconds + "s!" : "Game Over! You hit a mine after " + elapsedSeconds + "s!";
+        String message = isWin ? "Congratulations! You won in " + elapsedSeconds + "s!" : "Game Over! You hit a mine after " + elapsedSeconds + "s!";
         JOptionPane.showMessageDialog(this, message);
         revealAllCells();
     }
 
     private void restartGame() {
-        game.resetGame(); // Reset the game state
-        renderGrid(); // Re-render the grid
+        if (timer != null) {
+            timer.stop();
+        }
+        isTimerRunning = false;
+        flagCount = 0;
+        updateFlagCounter();
+        game.resetGame();
+        renderGrid();
+        timerLabel.setText("Time: 0s");
     }
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Minefield minefield = new Minefield(9, 9, 10);
