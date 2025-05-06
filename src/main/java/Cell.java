@@ -39,10 +39,10 @@ public class Cell {
 
     public boolean reveal() {
         if (isRevealed) {
-            return hasMine; // Reveal is idempotent
+            return hasMine; // Idempotent
         }
         if (isFlagged) {
-            return false; // Can't reveal flagged cell
+            return false;
         }
         isRevealed = true;
         return hasMine;

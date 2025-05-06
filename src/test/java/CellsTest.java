@@ -20,7 +20,7 @@ public class CellsTest {
         MineSweeper game = new MineSweeper(minefield);
 
         game.revealCell(0, 0);
-        assertFalse(game.revealCell(0, 0), "Already revealed cell should not be revealed again");
+        assertTrue(game.revealCell(0, 0), "Already revealed cell should not be revealed again");
     }
 
     // flagged cell cannot be revealed

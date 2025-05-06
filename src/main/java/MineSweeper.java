@@ -98,19 +98,17 @@ public class MineSweeper {
 
         Cell cell = grid[row][col];
 
-        // ✅ FIX: Skip any further processing if already revealed
-        if (cell.isRevealed()) return true;
-
+        if (cell.isRevealed()) return true; // allow re-reveal
         if (cell.isFlagged()) return false;
 
         if (startTime == null) {
-            startTime = Instant.now(); // Start timer on first reveal
+            startTime = Instant.now();
         }
 
-        boolean hasMine = cell.reveal(); // Only revealed here once
+        boolean hasMine = cell.reveal(); // this now always returns hasMine
         if (hasMine) {
             gameOver = true;
-            endTime = Instant.now(); // Stop timer on loss
+            endTime = Instant.now();
         }
 
         if (cell.getNumber() == 0) {
@@ -119,11 +117,12 @@ public class MineSweeper {
 
         if (checkWinCondition()) {
             gameOver = true;
-            endTime = Instant.now(); // Stop timer on win
+            endTime = Instant.now();
         }
 
         return true;
     }
+
 
 
 
