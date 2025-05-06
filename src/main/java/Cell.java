@@ -38,12 +38,16 @@ public class Cell {
 
 
     public boolean reveal() {
-        if (!isFlagged && !isRevealed) { //can't reveal a flagged cell or an already revealed cell
-            isRevealed = true;
-            return hasMine; // True if the cell has a mine
+        if (isRevealed) {
+            return hasMine; // Reveal is idempotent
         }
-        return false;
+        if (isFlagged) {
+            return false; // Can't reveal flagged cell
+        }
+        isRevealed = true;
+        return hasMine;
     }
+
 
     public boolean flag() {
         if (!isRevealed) {

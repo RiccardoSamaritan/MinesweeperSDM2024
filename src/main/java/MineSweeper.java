@@ -45,6 +45,7 @@ public class MineSweeper {
                 int count = 0;
                 for (int dr = -1; dr <= 1; dr++) {
                     for (int dc = -1; dc <= 1; dc++) {
+                        if (dr == 0 && dc == 0) continue; // ✅ Skip the cell itself
                         int r = row + dr;
                         int c = col + dc;
                         if (isValidCell(r, c) && grid[r][c].hasMine()) {
