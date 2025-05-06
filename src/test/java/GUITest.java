@@ -1,7 +1,8 @@
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 
@@ -13,6 +14,8 @@ public class GUITest {
 
     @BeforeEach
     public void setUp() {
+        Assumptions.assumeFalse(GraphicsEnvironment.isHeadless(), "Skipping GUI test in headless environment");
+
         minefield = new Minefield(9, 9, 10);
         gui = new MinesweeperGUI(minefield);
     }
