@@ -85,17 +85,19 @@ public class MineSweeper {
     public boolean revealCell(int row, int col) {
         if (gameOver || !isValidCell(row, col)) return false;
 
-        if (startTime == null) {
-            startTime = Instant.now(); // Avvia il cronometro alla prima rivelazione
-        }
-
         Cell cell = grid[row][col];
+
+        if (cell.isRevealed()) return true; // Idempotent behavior: allow re-reveal without error
         if (cell.isFlagged()) return false;
 
-        boolean hasMine = cell.reveal(); // .reveal returns true if the cell has a mine
+        if (startTime == null) {
+            startTime = Instant.now(); // Start timer on first reveal
+        }
+
+        boolean hasMine = cell.reveal();
         if (hasMine) {
             gameOver = true;
-            endTime = Instant.now(); // Ferma il cronometro in caso di sconfitta
+            endTime = Instant.now(); // Stop timer on loss
         }
 
         if (cell.getNumber() == 0) {
@@ -104,11 +106,12 @@ public class MineSweeper {
 
         if (checkWinCondition()) {
             gameOver = true;
-            endTime = Instant.now(); // Ferma il cronometro in caso di vittoria
+            endTime = Instant.now(); // Stop timer on win
         }
 
-        return true; // returns true if the cell can be revealed, regardless of whether it contains a mine
+        return true;
     }
+
 
     public boolean flagCell(int row, int col) {
         if (gameOver || !isValidCell(row, col)) return false;
