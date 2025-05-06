@@ -37,12 +37,22 @@ public class MineSweeper {
     }
 
     public void calculateNumbers() {
-        for (int row = 0; row < minefield.getRows(); row++) {
-            for (int col = 0; col < minefield.getColumns(); col++) {
-                if (!grid[row][col].hasMine()) {
-                    int adjacentMines = countAdjacentMines(grid, row, col);
-                    grid[row][col].setNumber(adjacentMines);
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[0].length; col++) {
+                Cell cell = grid[row][col];
+                if (cell.hasMine()) continue;
+
+                int count = 0;
+                for (int dr = -1; dr <= 1; dr++) {
+                    for (int dc = -1; dc <= 1; dc++) {
+                        int r = row + dr;
+                        int c = col + dc;
+                        if (isValidCell(r, c) && grid[r][c].hasMine()) {
+                            count++;
+                        }
+                    }
                 }
+                cell.setNumber(count);
             }
         }
     }
@@ -87,14 +97,13 @@ public class MineSweeper {
 
         Cell cell = grid[row][col];
 
-        if (cell.isRevealed()) return true; // Idempotent behavior: allow re-reveal without error
+        if (cell.isRevealed()) return true; // Idempotent: allow re-reveal
         if (cell.isFlagged()) return false;
 
         if (startTime == null) {
             startTime = Instant.now(); // Start timer on first reveal
         }
 
-        if (cell.isRevealed()) return true;
         boolean hasMine = cell.reveal();
         if (hasMine) {
             gameOver = true;
@@ -112,6 +121,7 @@ public class MineSweeper {
 
         return true;
     }
+
 
 
     public boolean flagCell(int row, int col) {
