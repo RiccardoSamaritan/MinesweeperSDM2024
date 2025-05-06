@@ -135,6 +135,7 @@ public class CellsTest {
         game.getGrid()[1][1].setMine(false);
 
         game.getGrid()[0][0].getNumber();
+        game.calculateNumbers();
         game.revealCell(0, 0);
         assertFalse(game.getGrid()[0][1].isRevealed(), "Neighbour cell should not be revealed");
         assertFalse(game.getGrid()[1][0].isRevealed(), "Neighbour cell should not be revealed");

@@ -94,6 +94,7 @@ public class MineSweeper {
             startTime = Instant.now(); // Start timer on first reveal
         }
 
+        if (cell.isRevealed()) return true;
         boolean hasMine = cell.reveal();
         if (hasMine) {
             gameOver = true;
